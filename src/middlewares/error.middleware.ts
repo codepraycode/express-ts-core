@@ -37,7 +37,7 @@ export function logErrorMiddleware(
 export function returnError(err: AppError, _req: Request, res: Response, next: NextFunction): void {
     if (res.headersSent) return next(err);
 
-    let statusCode = httpStatusCodes.INTERNAL_SERVER_ERROR;
+    let statusCode: number = httpStatusCodes.INTERNAL_SERVER_ERROR;
     let message = "An unexpected error occurred.";
     let errorName: string | undefined;
 

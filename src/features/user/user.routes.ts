@@ -1,8 +1,8 @@
-import { Router } from "express";
+import { type IRouter, Router } from "express";
 import { userController } from "./user.controller";
 import { authenticate, authorize } from "../auth/auth.middleware";
 
-const router = Router();
+const router: IRouter = Router();
 
 /**
  * @route   GET /api/v1/users

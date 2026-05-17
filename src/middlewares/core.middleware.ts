@@ -1,6 +1,6 @@
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import express from "express";
+import express, { type RequestHandler } from "express";
 import { corsOptions } from "../config/security.config";
 import morganMiddleware from "./morgan.middleware";
 
@@ -13,7 +13,7 @@ import morganMiddleware from "./morgan.middleware";
  *   2. CORS — must come before body parsers
  *   3. Body / cookie parsers
  */
-export const BASE_MIDDLEWARES = [
+export const BASE_MIDDLEWARES: RequestHandler[] = [
     morganMiddleware,
     cors(corsOptions),
     cookieParser(),
