@@ -1,0 +1,22 @@
+# deps
+node_modules/
+
+# Envs
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Exports
+dist
+
+# Logs
+logs
+*.log
+test_output_*.txt
+test_output.txt
+
+# Agent
+.agent
+
+uploads
