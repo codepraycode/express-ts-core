@@ -2,7 +2,7 @@
 
 > A production-ready, feature-based REST API template for Node.js. Clone once, build forever.
 
-[![CI](https://github.com/<your-org>/<your-repo>/actions/workflows/ci.yml/badge.svg)](https://github.com/<your-org>/<your-repo>/actions/workflows/ci.yml)
+[![CI](https://github.com/codepraycode/express-ts-core/actions/workflows/ci.yml/badge.svg)](https://github.com/codepraycode/express-ts-core/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
@@ -108,7 +108,7 @@
 Click **"Use this template"** on GitHub, or clone directly:
 
 ```bash
-git clone https://github.com/<your-org>/express-ts-template.git my-api
+git clone https://github.com/codepraycode/express-ts-core.git my-api
 cd my-api
 ```
 

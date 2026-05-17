@@ -3,6 +3,17 @@ import { AuthUtils } from "./auth.utils";
 import { ConflictError, NotFoundError, UnauthorizedError } from "../../core/utils/custom-errors";
 import { LoginDto, RegisterDto } from "./auth.types";
 
+// Reusable select that strips the password field
+const USER_SAFE_SELECT = {
+    id: true,
+    email: true,
+    name: true,
+    role: true,
+    isActive: true,
+    createdAt: true,
+    updatedAt: true,
+} as const;
+
 /**
  * Data-access layer for auth operations.
  * Raw Prisma queries are isolated here; services call this repository.
@@ -21,7 +32,7 @@ export class AuthRepository {
                 email: dto.email.toLowerCase().trim(),
                 password: hashedPassword,
             },
-            omit: { password: true },
+            select: USER_SAFE_SELECT,
         });
     }
 

@@ -24,9 +24,8 @@ export class AuthUtils {
      * @param expiresIn - Override the default expiry from envConfig.
      */
     static signJwt(payload: JwtUserPayload, expiresIn?: string): string {
-        return sign(payload as object, envConfig.JWT_SECRET, {
-            expiresIn: expiresIn ?? envConfig.JWT_EXPIRES_IN,
-        });
+        const options = { expiresIn: expiresIn ?? envConfig.JWT_EXPIRES_IN };
+        return sign(payload as object, envConfig.JWT_SECRET as string, options as object) as string;
     }
 
     /**

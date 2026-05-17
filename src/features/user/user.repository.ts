@@ -1,6 +1,17 @@
 import prisma from "../../core/database/prisma";
 import { SafeUser } from "./user.types";
 
+// Reusable select that strips the password field
+const USER_SAFE_SELECT = {
+    id: true,
+    email: true,
+    name: true,
+    role: true,
+    isActive: true,
+    createdAt: true,
+    updatedAt: true,
+} as const;
+
 /**
  * Data-access layer for the User entity.
  * All Prisma queries for users live here.
@@ -8,7 +19,7 @@ import { SafeUser } from "./user.types";
 export class UserRepository {
     /** Find a user by ID, password excluded. */
     async findById(id: string): Promise<SafeUser | null> {
-        return prisma.user.findUnique({ where: { id }, omit: { password: true } });
+        return prisma.user.findUnique({ where: { id }, select: USER_SAFE_SELECT });
     }
 
     /** Find a user by email (includes password hash — for auth only). */
@@ -19,14 +30,14 @@ export class UserRepository {
     /** Return all users, ordered by creation date descending. */
     async findAll(): Promise<SafeUser[]> {
         return prisma.user.findMany({
-            omit: { password: true },
+            select: USER_SAFE_SELECT,
             orderBy: { createdAt: "desc" },
         });
     }
 
     /** Update mutable fields on a user record. */
     async update(id: string, data: Partial<{ name: string; email: string }>): Promise<SafeUser> {
-        return prisma.user.update({ where: { id }, data, omit: { password: true } });
+        return prisma.user.update({ where: { id }, data, select: USER_SAFE_SELECT });
     }
 
     /** Soft-delete: marks the account inactive without removing the row. */
@@ -34,7 +45,7 @@ export class UserRepository {
         return prisma.user.update({
             where: { id },
             data: { isActive: false },
-            omit: { password: true },
+            select: USER_SAFE_SELECT,
         });
     }
 

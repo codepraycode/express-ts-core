@@ -60,7 +60,8 @@ export function returnError(err: AppError, _req: Request, res: Response, next: N
 
     ApiResponse.error(res, {
         message,
-        status: statusCode,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        status: statusCode as any,
         error: envConfig.NODE_ENV === "development" ? new Error(errorName) : undefined,
     });
 }
