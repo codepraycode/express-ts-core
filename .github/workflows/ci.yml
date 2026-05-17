@@ -1,0 +1,162 @@
+name: CI
+
+on:
+    push:
+        branches: [main, dev]
+    pull_request:
+        branches: [main, dev]
+
+concurrency:
+    group: ci-${{ github.ref }}
+    cancel-in-progress: true
+
+env:
+    NODE_VERSION: "20"
+    PNPM_VERSION: "8"
+
+jobs:
+    # ─────────────────────────────────────────────────────────────────────────
+    # Lint & Format check
+    # ─────────────────────────────────────────────────────────────────────────
+    lint:
+        name: Lint & Format
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v4
+              with:
+                  version: ${{ env.PNPM_VERSION }}
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: pnpm
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Check formatting
+              run: pnpm format:check
+
+            - name: Lint
+              run: pnpm lint
+
+    # ─────────────────────────────────────────────────────────────────────────
+    # Type check
+    # ─────────────────────────────────────────────────────────────────────────
+    typecheck:
+        name: Type Check
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v4
+              with:
+                  version: ${{ env.PNPM_VERSION }}
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: pnpm
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Generate Prisma client
+              run: pnpm db:generate
+
+            - name: Type check
+              run: pnpm tsc --noEmit
+
+    # ─────────────────────────────────────────────────────────────────────────
+    # Tests
+    # ─────────────────────────────────────────────────────────────────────────
+    test:
+        name: Tests
+        runs-on: ubuntu-latest
+
+        services:
+            postgres:
+                image: postgres:16-alpine
+                env:
+                    POSTGRES_USER: test_user
+                    POSTGRES_PASSWORD: test_password
+                    POSTGRES_DB: test_db
+                ports:
+                    - 5432:5432
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+
+            redis:
+                image: redis:7-alpine
+                ports:
+                    - 6379:6379
+                options: >-
+                    --health-cmd "redis-cli ping"
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+
+        env:
+            NODE_ENV: test
+            DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
+            REDIS_URL: redis://localhost:6379
+            JWT_SECRET: ci-test-jwt-secret-do-not-use-in-production
+            JWT_EXPIRES_IN: 1h
+            SESSION_SECRET: ci-test-session-secret-do-not-use-in-production
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v4
+              with:
+                  version: ${{ env.PNPM_VERSION }}
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: pnpm
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Generate Prisma client
+              run: pnpm db:generate
+
+            - name: Run migrations
+              run: pnpm db:migrate:deploy
+
+            - name: Run tests
+              run: pnpm test
+
+    # ─────────────────────────────────────────────────────────────────────────
+    # Build check
+    # ─────────────────────────────────────────────────────────────────────────
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+        needs: [lint, typecheck]
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v4
+              with:
+                  version: ${{ env.PNPM_VERSION }}
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+                  cache: pnpm
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Generate Prisma client
+              run: pnpm db:generate
+
+            - name: Build
+              run: pnpm build

@@ -5,12 +5,17 @@ import prettier from "eslint-plugin-prettier";
 import prettierConfig from "eslint-config-prettier";
 
 export default [
+    // Global ignores
     {
-        ignores: ["node_modules/**", "dist/**", "build/**", "coverage/**"],
+        ignores: ["node_modules/**", "dist/**", "build/**", "coverage/**", "*.js"],
     },
+
+    // Base JS recommended rules
     eslint.configs.recommended,
+
+    // TypeScript files
     {
-        files: ["**/*.ts", "**/*.tsx"],
+        files: ["**/*.ts"],
         languageOptions: {
             parser: tsparser,
             parserOptions: {
@@ -21,45 +26,33 @@ export default [
         },
         plugins: {
             "@typescript-eslint": tseslint,
-            prettier: prettier,
+            prettier,
         },
         rules: {
             ...tseslint.configs.recommended.rules,
             ...prettierConfig.rules,
+
+            // Prettier integration — enforces .prettierrc settings (4-space tabs etc.)
             "prettier/prettier": "error",
+
+            // TypeScript
             "@typescript-eslint/no-unused-vars": [
                 "error",
-                {
-                    argsIgnorePattern: "^_",
-                    varsIgnorePattern: "^_",
-                },
+                { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
             ],
             "@typescript-eslint/explicit-function-return-type": "off",
             "@typescript-eslint/no-explicit-any": "warn",
-            "@typescript-eslint/no-var-requires": "off",
-            "no-console": "off",
-        },
-    },
-    {
-        files: ["**/*.js", "**/*.mjs"],
-        languageOptions: {
-            ecmaVersion: "latest",
-            sourceType: "module",
-        },
-        plugins: {
-            prettier: prettier,
-        },
-        rules: {
-            ...prettierConfig.rules,
-            "prettier/prettier": "error",
-            "no-unused-vars": [
-                "error",
-                {
-                    argsIgnorePattern: "^_",
-                    varsIgnorePattern: "^_",
-                },
+            "@typescript-eslint/no-require-imports": "off",
+            "@typescript-eslint/consistent-type-imports": [
+                "warn",
+                { prefer: "type-imports", fixStyle: "inline-type-imports" },
             ],
+
+            // General
             "no-console": "off",
+            "prefer-const": "error",
+            "no-var": "error",
+            eqeqeq: ["error", "always"],
         },
     },
 ];
