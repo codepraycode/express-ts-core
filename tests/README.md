@@ -45,11 +45,11 @@ const app = createApp();
 beforeEach(() => clearDatabase());
 
 it("POST /api/v1/auth/register creates a user", async () => {
-  const res = await request(app)
-    .post("/api/v1/auth/register")
-    .send({ name: "Alice", email: "alice@test.com", password: "Password123!" });
+    const res = await request(app)
+        .post("/api/v1/auth/register")
+        .send({ name: "Alice", email: "alice@test.com", password: "Password123!" });
 
-  expect(res.status).toBe(201);
-  expect(res.body.data.user.email).toBe("alice@test.com");
+    expect(res.status).toBe(201);
+    expect(res.body.data.user.email).toBe("alice@test.com");
 });
 ```

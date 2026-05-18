@@ -29,7 +29,9 @@ export class ApiResponse<T = unknown> {
     /** 200 OK */
     static ok<T = unknown>(res: Response, payload: SuccessPayload<T>): Response {
         const { message = "Success", data, meta } = payload;
-        return res.status(httpStatusCodes.OK).json(new ApiResponse(httpStatusCodes.OK, message, data, meta));
+        return res
+            .status(httpStatusCodes.OK)
+            .json(new ApiResponse(httpStatusCodes.OK, message, data, meta));
     }
 
     /** 201 Created */
@@ -48,7 +50,11 @@ export class ApiResponse<T = unknown> {
     /** 4xx / 5xx error */
     static error(
         res: Response,
-        { status = httpStatusCodes.INTERNAL_SERVER_ERROR, message = "Internal Server Error", error }: ErrorPayload,
+        {
+            status = httpStatusCodes.INTERNAL_SERVER_ERROR,
+            message = "Internal Server Error",
+            error,
+        }: ErrorPayload,
     ): Response {
         return res.status(status).json(new ApiResponse(status, message, error));
     }

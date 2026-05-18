@@ -14,9 +14,7 @@ export const clearDatabase = async (): Promise<void> => {
     `;
 
     for (const { tablename } of tables) {
-        await prisma.$executeRawUnsafe(
-            `TRUNCATE TABLE "${tablename}" RESTART IDENTITY CASCADE`,
-        );
+        await prisma.$executeRawUnsafe(`TRUNCATE TABLE "${tablename}" RESTART IDENTITY CASCADE`);
     }
 };
 

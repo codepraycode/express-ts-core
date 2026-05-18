@@ -9,21 +9,21 @@
 
 ## ✨ What's Included
 
-| Layer | Technology |
-|---|---|
-| HTTP Server | [Express 4](https://expressjs.com/) |
-| Language | TypeScript 5 (strict mode) |
-| ORM | [Prisma 5](https://www.prisma.io/) |
-| Database | PostgreSQL 16 |
-| Caching / Sessions | Redis 7 |
-| Authentication | JWT (jsonwebtoken) + bcrypt |
-| Email | Nodemailer (SMTP) |
-| Real-time | Socket.IO |
-| Logging | Winston + daily log rotation |
-| Testing | Jest + Supertest |
-| Linting | ESLint 9 (flat config) + Prettier |
-| Containerisation | Docker Compose |
-| CI | GitHub Actions |
+| Layer              | Technology                          |
+| ------------------ | ----------------------------------- |
+| HTTP Server        | [Express 4](https://expressjs.com/) |
+| Language           | TypeScript 5 (strict mode)          |
+| ORM                | [Prisma 5](https://www.prisma.io/)  |
+| Database           | PostgreSQL 16                       |
+| Caching / Sessions | Redis 7                             |
+| Authentication     | JWT (jsonwebtoken) + bcrypt         |
+| Email              | Nodemailer (SMTP)                   |
+| Real-time          | Socket.IO                           |
+| Logging            | Winston + daily log rotation        |
+| Testing            | Jest + Supertest                    |
+| Linting            | ESLint 9 (flat config) + Prettier   |
+| Containerisation   | Docker Compose                      |
+| CI                 | GitHub Actions                      |
 
 ---
 
@@ -96,12 +96,12 @@
 
 ### Prerequisites
 
-| Tool | Version |
-|---|---|
-| Node.js | ≥ 18 |
-| pnpm | ≥ 10 |
-| Docker | any recent version |
-| Docker Compose | v2+ |
+| Tool           | Version            |
+| -------------- | ------------------ |
+| Node.js        | ≥ 18               |
+| pnpm           | ≥ 10               |
+| Docker         | any recent version |
+| Docker Compose | v2+                |
 
 ### 1. Use this template
 
@@ -165,27 +165,27 @@ The API is available at **`http://localhost:8080`**.
 
 ### Health
 
-| Method | URL | Auth | Description |
-|---|---|---|---|
-| GET | `/` | Public | Server status + environment |
-| GET | `/health` | Public | Health check with timestamp |
+| Method | URL       | Auth   | Description                 |
+| ------ | --------- | ------ | --------------------------- |
+| GET    | `/`       | Public | Server status + environment |
+| GET    | `/health` | Public | Health check with timestamp |
 
 ### Auth — `/api/v1/auth`
 
-| Method | URL | Auth | Description |
-|---|---|---|---|
-| POST | `/register` | Public | Create account, receive JWT |
-| POST | `/login` | Public | Authenticate, receive JWT |
-| GET | `/me` | Bearer JWT | Retrieve own profile |
+| Method | URL         | Auth       | Description                 |
+| ------ | ----------- | ---------- | --------------------------- |
+| POST   | `/register` | Public     | Create account, receive JWT |
+| POST   | `/login`    | Public     | Authenticate, receive JWT   |
+| GET    | `/me`       | Bearer JWT | Retrieve own profile        |
 
 ### Users — `/api/v1/users`
 
-| Method | URL | Auth | Description |
-|---|---|---|---|
-| GET | `/` | Admin | List all users |
-| GET | `/:id` | Authenticated | Get user by ID |
-| PATCH | `/:id` | Authenticated | Update user profile |
-| DELETE | `/:id` | Admin | Delete user permanently |
+| Method | URL    | Auth          | Description             |
+| ------ | ------ | ------------- | ----------------------- |
+| GET    | `/`    | Admin         | List all users          |
+| GET    | `/:id` | Authenticated | Get user by ID          |
+| PATCH  | `/:id` | Authenticated | Update user profile     |
+| DELETE | `/:id` | Admin         | Delete user permanently |
 
 ---
 
@@ -195,9 +195,9 @@ This template uses **stateless JWT** authentication:
 
 1. Call `POST /api/v1/auth/login` → receive a signed JWT.
 2. Include the JWT in every protected request:
-   ```
-   Authorization: Bearer <token>
-   ```
+    ```
+    Authorization: Bearer <token>
+    ```
 3. The `authenticate` middleware verifies the token and populates `req.user`.
 4. The `authorize(...roles)` middleware enforces role-based access control.
 
@@ -270,9 +270,9 @@ app.use(API_PREFIX, session(sessionConfig), postRouter);
 ```typescript
 // src/features/post/index.ts
 export { postController } from "./post.controller";
-export { postService }    from "./post.service";
+export { postService } from "./post.service";
 export type { CreatePostDto } from "./post.types";
-export { default }        from "./post.routes";
+export { default } from "./post.routes";
 ```
 
 ---
@@ -282,24 +282,24 @@ export { default }        from "./post.routes";
 All environment configuration flows through `src/config/env.config.ts`.
 **Never read `process.env` directly outside that file.**
 
-| Variable | Default | Required | Description |
-|---|---|---|---|
-| `NODE_ENV` | `development` | | Runtime environment |
-| `PORT` | `8080` | | HTTP server port |
-| `CLIENT_URL` | `http://localhost:3000` | | Front-end URL (CORS + email links) |
-| `DATABASE_URL` | — | ✅ | Prisma PostgreSQL connection string |
-| `REDIS_URL` | `redis://localhost:6379` | | Redis connection URL |
-| `JWT_SECRET` | — | ✅ | JWT signing secret (≥ 32 chars) |
-| `JWT_EXPIRES_IN` | `1h` | | JWT expiry (e.g. `1h`, `7d`) |
-| `SESSION_SECRET` | — | ✅ | Session encryption secret |
-| `SMTP_HOST` | — | | SMTP server hostname |
-| `SMTP_PORT` | `587` | | SMTP server port |
-| `SMTP_USER` | — | | SMTP username |
-| `SMTP_PASSWORD` | — | | SMTP password |
-| `FROM_EMAIL` | `no-reply@example.com` | | Sender address |
-| `EMAIL_TIMEOUT` | `10000` | | SMTP timeout in ms |
-| `ENABLE_FILE_LOGGING` | `false` | | Write logs to `logs/` directory |
-| `API_PREFIX` | `api/v1` | | URL prefix for all API routes |
+| Variable              | Default                  | Required | Description                         |
+| --------------------- | ------------------------ | -------- | ----------------------------------- |
+| `NODE_ENV`            | `development`            |          | Runtime environment                 |
+| `PORT`                | `8080`                   |          | HTTP server port                    |
+| `CLIENT_URL`          | `http://localhost:3000`  |          | Front-end URL (CORS + email links)  |
+| `DATABASE_URL`        | —                        | ✅       | Prisma PostgreSQL connection string |
+| `REDIS_URL`           | `redis://localhost:6379` |          | Redis connection URL                |
+| `JWT_SECRET`          | —                        | ✅       | JWT signing secret (≥ 32 chars)     |
+| `JWT_EXPIRES_IN`      | `1h`                     |          | JWT expiry (e.g. `1h`, `7d`)        |
+| `SESSION_SECRET`      | —                        | ✅       | Session encryption secret           |
+| `SMTP_HOST`           | —                        |          | SMTP server hostname                |
+| `SMTP_PORT`           | `587`                    |          | SMTP server port                    |
+| `SMTP_USER`           | —                        |          | SMTP username                       |
+| `SMTP_PASSWORD`       | —                        |          | SMTP password                       |
+| `FROM_EMAIL`          | `no-reply@example.com`   |          | Sender address                      |
+| `EMAIL_TIMEOUT`       | `10000`                  |          | SMTP timeout in ms                  |
+| `ENABLE_FILE_LOGGING` | `false`                  |          | Write logs to `logs/` directory     |
+| `API_PREFIX`          | `api/v1`                 |          | URL prefix for all API routes       |
 
 ---
 
@@ -367,26 +367,26 @@ await seedModel(prisma.user, [{ name: "Bob", email: "bob@test.com", ... }]);
 
 ## 🛠️ Scripts Reference
 
-| Command | Description |
-|---|---|
-| `pnpm dev` | Start dev server with hot-reload |
-| `pnpm build` | Compile TypeScript → `dist/` |
-| `pnpm start` | Run the compiled production build |
-| `pnpm test` | Run all tests |
-| `pnpm test:coverage` | Run tests with coverage report |
-| `pnpm lint` | Run ESLint |
-| `pnpm lint:fix` | Auto-fix lint errors |
-| `pnpm format` | Format all files with Prettier |
-| `pnpm format:check` | Check formatting without writing |
-| `pnpm db:generate` | Regenerate Prisma client after schema changes |
-| `pnpm db:migrate` | Create and apply a new migration |
-| `pnpm db:migrate:deploy` | Apply pending migrations (production) |
-| `pnpm db:push` | Push schema without migration (prototyping) |
-| `pnpm db:studio` | Open Prisma Studio (visual DB browser) |
-| `pnpm db:seed` | Seed the database |
-| `pnpm docker:up` | Start Docker containers |
-| `pnpm docker:down` | Stop Docker containers |
-| `pnpm docker:reset` | Wipe data volumes and restart |
+| Command                  | Description                                   |
+| ------------------------ | --------------------------------------------- |
+| `pnpm dev`               | Start dev server with hot-reload              |
+| `pnpm build`             | Compile TypeScript → `dist/`                  |
+| `pnpm start`             | Run the compiled production build             |
+| `pnpm test`              | Run all tests                                 |
+| `pnpm test:coverage`     | Run tests with coverage report                |
+| `pnpm lint`              | Run ESLint                                    |
+| `pnpm lint:fix`          | Auto-fix lint errors                          |
+| `pnpm format`            | Format all files with Prettier                |
+| `pnpm format:check`      | Check formatting without writing              |
+| `pnpm db:generate`       | Regenerate Prisma client after schema changes |
+| `pnpm db:migrate`        | Create and apply a new migration              |
+| `pnpm db:migrate:deploy` | Apply pending migrations (production)         |
+| `pnpm db:push`           | Push schema without migration (prototyping)   |
+| `pnpm db:studio`         | Open Prisma Studio (visual DB browser)        |
+| `pnpm db:seed`           | Seed the database                             |
+| `pnpm docker:up`         | Start Docker containers                       |
+| `pnpm docker:down`       | Stop Docker containers                        |
+| `pnpm docker:reset`      | Wipe data volumes and restart                 |
 
 ---
 
@@ -401,6 +401,7 @@ code --install-extension Prisma.prisma
 ```
 
 The included `.vscode/settings.json` enables:
+
 - **Format on save** (Prettier)
 - **Auto-fix lint errors on save** (ESLint)
 - **4-space indentation**
@@ -414,12 +415,12 @@ Two GitHub Actions workflows are included:
 
 ### `ci.yml` (on push/PR to `main` or `develop`)
 
-| Job | What it does |
-|---|---|
-| `lint` | Checks formatting and runs ESLint |
-| `typecheck` | Runs `tsc --noEmit` |
-| `test` | Runs Jest with live Postgres + Redis services |
-| `build` | Compiles TypeScript (runs after lint + typecheck) |
+| Job         | What it does                                      |
+| ----------- | ------------------------------------------------- |
+| `lint`      | Checks formatting and runs ESLint                 |
+| `typecheck` | Runs `tsc --noEmit`                               |
+| `test`      | Runs Jest with live Postgres + Redis services     |
+| `build`     | Compiles TypeScript (runs after lint + typecheck) |
 
 ### `release.yml` (on `v*.*.*` tag push)
 

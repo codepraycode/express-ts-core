@@ -57,7 +57,11 @@ class EmailService {
     // Core send
     // ---------------------------------------------------------------------------
 
-    private async sendMail(to: string, subject: string, html: string): Promise<EmailServiceResponse> {
+    private async sendMail(
+        to: string,
+        subject: string,
+        html: string,
+    ): Promise<EmailServiceResponse> {
         const options: SendMailOptions = {
             from: `"App Support" <${envConfig.FROM_EMAIL}>`,
             to,
@@ -86,7 +90,11 @@ class EmailService {
     // ---------------------------------------------------------------------------
 
     /** Send an OTP / email-verification code. */
-    async sendVerificationEmail(to: string, code: string, userName?: string): Promise<EmailServiceResponse> {
+    async sendVerificationEmail(
+        to: string,
+        code: string,
+        userName?: string,
+    ): Promise<EmailServiceResponse> {
         const html = `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                 <h2>Email Verification</h2>
@@ -101,7 +109,11 @@ class EmailService {
     }
 
     /** Send a password-reset link. */
-    async sendPasswordResetEmail(to: string, resetUrl: string, userName?: string): Promise<EmailServiceResponse> {
+    async sendPasswordResetEmail(
+        to: string,
+        resetUrl: string,
+        userName?: string,
+    ): Promise<EmailServiceResponse> {
         const html = `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                 <h2>Password Reset</h2>

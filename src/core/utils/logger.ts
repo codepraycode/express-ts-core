@@ -133,12 +133,7 @@ export const logDebug = (message: string, meta?: Record<string, unknown>) =>
     logger.debug(message, meta);
 
 /** Log an HTTP request. */
-export const logRequest = (
-    method: string,
-    url: string,
-    statusCode?: number,
-    duration?: number,
-) => {
+export const logRequest = (method: string, url: string, statusCode?: number, duration?: number) => {
     const msg = `${method} ${url}${statusCode ? ` - ${statusCode}` : ""}${duration ? ` (${duration}ms)` : ""}`;
     logger.http(msg);
 };

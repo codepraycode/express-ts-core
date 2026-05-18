@@ -23,9 +23,7 @@ const API_PREFIX = `/${envConfig.API_PREFIX}`;
  */
 export function registerRoutes(app: Express): void {
     // Health / status — no auth, no rate limit
-    app.get("/", (_req, res) =>
-        res.json({ status: "ok", environment: envConfig.NODE_ENV }),
-    );
+    app.get("/", (_req, res) => res.json({ status: "ok", environment: envConfig.NODE_ENV }));
     app.get("/health", (_req, res) =>
         res.json({ status: "healthy", timestamp: new Date().toISOString() }),
     );

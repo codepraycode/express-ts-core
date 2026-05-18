@@ -14,7 +14,10 @@ export class AuthController {
     async register(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const { user, token } = await authService.register(req.body);
-            ApiResponse.created(res, { message: "Account created successfully.", data: { user, token } });
+            ApiResponse.created(res, {
+                message: "Account created successfully.",
+                data: { user, token },
+            });
         } catch (err) {
             next(err);
         }

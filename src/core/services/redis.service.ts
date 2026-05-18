@@ -64,7 +64,11 @@ class RedisService {
         return this.client.get(key);
     }
 
-    public async set(key: string, value: string, options?: { EX?: number }): Promise<string | null> {
+    public async set(
+        key: string,
+        value: string,
+        options?: { EX?: number },
+    ): Promise<string | null> {
         return this.client.set(key, value, options);
     }
 
