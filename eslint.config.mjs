@@ -3,11 +3,12 @@ import tseslint from "@typescript-eslint/eslint-plugin";
 import tsparser from "@typescript-eslint/parser";
 import prettier from "eslint-plugin-prettier";
 import prettierConfig from "eslint-config-prettier";
+import globals from "globals";
 
 export default [
     // Global ignores
     {
-        ignores: ["node_modules/**", "dist/**", "build/**", "coverage/**", "*.js"],
+        ignores: ["node_modules/**", "dist/**", "build/**", "coverage/**", "*.js", "jest.config.ts"],
     },
 
     // Base JS recommended rules
@@ -22,6 +23,10 @@ export default [
                 ecmaVersion: "latest",
                 sourceType: "module",
                 project: "./tsconfig.json",
+            },
+            globals: {
+                ...globals.node,
+                ...globals.jest,
             },
         },
         plugins: {

@@ -17,8 +17,12 @@ export class BaseError extends Error {
         name = "BaseError",
         metadata: unknown = null,
         isOperational = true,
+        options?: { cause?: unknown },
     ) {
         super(message);
+        if (options?.cause !== undefined) {
+            (this as any).cause = options.cause;
+        }
         Object.setPrototypeOf(this, new.target.prototype);
 
         this.name = name;
@@ -77,8 +81,15 @@ export class InternalServerError extends BaseError {
 }
 
 export class GatewayTimeoutError extends BaseError {
-    constructor(message: string, metadata?: unknown) {
-        super(message, httpStatusCodes.GATEWAY_TIMEOUT, "GatewayTimeoutError", metadata);
+    constructor(message: string, metadata?: unknown, options?: { cause?: unknown }) {
+        super(
+            message,
+            httpStatusCodes.GATEWAY_TIMEOUT,
+            "GatewayTimeoutError",
+            metadata,
+            true,
+            options,
+        );
     }
 }
 

@@ -1,14 +1,15 @@
-import { NextFunction, Request, Response } from "express";
 import { Role } from "@prisma/client";
-import { AuthUtils } from "./auth.utils";
+import { NextFunction, Request, Response } from "express";
 import { ForbiddenError, UnauthorizedError } from "../../core/utils/custom-errors";
 import { JwtUserPayload } from "./auth.types";
+import { AuthUtils } from "./auth.utils";
 
 // ---------------------------------------------------------------------------
 // Type augmentation — adds `req.user` to Express's Request
 // ---------------------------------------------------------------------------
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Express {
         interface Request {
             user?: JwtUserPayload;

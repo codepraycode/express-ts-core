@@ -41,7 +41,9 @@ class RedisService {
         } catch (error) {
             this.isConnected = false;
             logError(error, "RedisService.connect");
-            throw new Error("Redis connection failed.");
+            const err = new Error("Redis connection failed.");
+            (err as any).cause = error;
+            throw err;
         }
     }
 

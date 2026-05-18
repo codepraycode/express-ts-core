@@ -79,9 +79,11 @@ class EmailService {
             return { success: true, messageId: info.messageId };
         } catch (error) {
             if ((error as Error).message.includes("Timeout")) {
-                throw new GatewayTimeoutError("Email delivery timed out.");
+                throw new GatewayTimeoutError("Email delivery timed out.", null, { cause: error });
             }
-            throw new Error("Email delivery failed.");
+            const err = new Error("Email delivery failed.");
+            (err as any).cause = error;
+            throw err;
         }
     }
 
