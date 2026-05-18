@@ -99,7 +99,7 @@
 | Tool | Version |
 |---|---|
 | Node.js | ≥ 18 |
-| pnpm | ≥ 8 |
+| pnpm | ≥ 10 |
 | Docker | any recent version |
 | Docker Compose | v2+ |
 
