@@ -4,7 +4,7 @@
     "description": "Production-ready Express + TypeScript + Prisma + PostgreSQL + Redis API template.",
     "main": "dist/src/server.js",
     "scripts": {
-        "dev": "cross-env NODE_ENV=development ts-node-dev --files server.ts",
+        "dev": "cross-env NODE_ENV=development ts-node-dev --files src/server.ts",
         "test": "cross-env NODE_ENV=test jest",
         "build": "tsc",
         "start": "node dist/src/server.js",
